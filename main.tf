@@ -5,9 +5,11 @@ terraform {
     }
 
     github = {
-      source = "hashicorp/github"
+      source = "integrations/github"
     }
   }
 }
 
-provider "kubernetes" {}
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}

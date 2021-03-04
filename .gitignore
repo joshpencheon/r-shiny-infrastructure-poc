@@ -1,2 +1,5 @@
-# Ignore Terraform local state:
+# Ignore Terraform cache:
 .terraform/
+
+# Ignore Terraform local state (remote state should be used):
+terraform.tfstate*
