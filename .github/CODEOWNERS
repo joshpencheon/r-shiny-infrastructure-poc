@@ -1,0 +1,5 @@
+# # The default is sysadmins own everything...
+# *                  @sysadmins
+
+# # ...but we allow Lead analysts to approve deployment configuration changes
+# deployments.tf     @lead-analysts
