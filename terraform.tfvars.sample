@@ -1,0 +1,4 @@
+auth0-subdomain = "some-domain.eu"
+auth0-client-id = "YOUR CLIENT ID"
+auth0-secret    = "YOUR SECRET"
+cookie-secret   = "SOMETHING TO ENCRYPT COOKIES WITH"

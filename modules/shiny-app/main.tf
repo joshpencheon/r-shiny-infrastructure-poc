@@ -66,8 +66,36 @@ data "template_file" "apache_proxy_config" {
     node-name = "localhost"
     # We can't determine the node port at this stage. Would need proper egress set up.
     # node-port = kubernetes_service.shiny_auth.spec[0].port[0].node_port
-    node-port = "1234" # Unused
+    node-port = var.node_port
     app-namespace = kubernetes_namespace.shiny_app.id
+  }
+}
+
+resource "kubernetes_secret" "auth0_config" {
+  metadata {
+    name = "shiny-auth-auth0-config-${var.name}"
+    namespace = kubernetes_namespace.shiny_app.id
+    labels = {
+      app  = "shiny"
+      tier = "auth"
+    }
+  }
+}
+
+# Interpolates OIDC secrets into the apache configuration
+data "template_file" "apache_oidc_config" {
+  template = file("${path.module}/00-oidc.conf")
+  vars = {
+    node-name = "localhost"
+    # We can't determine the node port at this stage. Would need proper egress set up.
+    # node-port = kubernetes_service.shiny_auth.spec[0].port[0].node_port
+    node-port = var.node_port
+
+    # pull these in from terraform.tfvars; they don't need to be k8s secrets.
+    auth0-subdomain = var.auth0-subdomain
+    auth0-client-id = var.auth0-client-id
+    auth0-secret    = var.auth0-secret
+    cookie-secret   = var.cookie-secret
   }
 }
 
@@ -82,7 +110,8 @@ resource "kubernetes_config_map" "apache_config" {
   }
 
   data = {
-    "proxy.conf" = data.template_file.apache_proxy_config.rendered
+    "00-oidc.conf" = data.template_file.apache_oidc_config.rendered
+    "proxy.conf"   = data.template_file.apache_proxy_config.rendered
   }
 }
 
@@ -174,6 +203,9 @@ resource "kubernetes_service" "shiny_auth" {
     port {
       port = 80
       target_port = 80
+
+      # Set the node_port ourselves, so we can add in OIDC redirect config up front.
+      node_port = var.node_port
     }
 
     type = "NodePort"

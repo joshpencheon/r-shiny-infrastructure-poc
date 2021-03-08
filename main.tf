@@ -10,6 +10,24 @@ provider "kubernetes" {
   config_path = "~/.kube/config"
 }
 
+### Auth0 variables:
+
+variable "auth0-subdomain" {
+  type = string
+}
+
+variable "auth0-client-id" {
+  type = string
+}
+
+variable "auth0-secret" {
+  type = string
+}
+
+variable "cookie-secret" {
+  type = string
+}
+
 module "shiny_app" {
   source = "./modules/shiny-app"
 
@@ -17,4 +35,12 @@ module "shiny_app" {
 
   name = each.key
   tag  = each.value.tag
+
+  auth0-subdomain = var.auth0-subdomain
+  auth0-client-id = var.auth0-client-id
+  auth0-secret    = var.auth0-secret
+  cookie-secret   = var.cookie-secret
+
+  # Hackishly set these to known-up-front values, rather than allowing k8s to pick
+  node_port = 31000 + index(keys(var.deployments), each.key)
 }

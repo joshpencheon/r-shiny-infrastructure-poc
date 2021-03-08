@@ -3,3 +3,6 @@
 
 # Ignore Terraform local state (remote state should be used):
 terraform.tfstate*
+
+# Contains auth0 secrets
+terraform.tfvars
