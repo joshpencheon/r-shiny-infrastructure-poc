@@ -63,6 +63,10 @@ resource "kubernetes_deployment" "shiny_app" {
 data "template_file" "apache_proxy_config" {
   template = file("${path.module}/proxy.conf")
   vars = {
+    node-name = "localhost"
+    # We can't determine the node port at this stage. Would need proper egress set up.
+    # node-port = kubernetes_service.shiny_auth.spec[0].port[0].node_port
+    node-port = "1234" # Unused
     app-namespace = kubernetes_namespace.shiny_app.id
   }
 }
