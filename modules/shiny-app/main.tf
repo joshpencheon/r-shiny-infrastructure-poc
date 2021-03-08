@@ -110,7 +110,7 @@ resource "kubernetes_config_map" "apache_config" {
   }
 
   data = {
-    "00-oidc.conf" = data.template_file.apache_oidc_config.rendered
+    "00-oidc.conf" = var.access == "restricted" ? data.template_file.apache_oidc_config.rendered : "# public access"
     "proxy.conf"   = data.template_file.apache_proxy_config.rendered
   }
 }

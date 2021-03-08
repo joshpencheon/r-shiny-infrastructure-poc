@@ -15,7 +15,7 @@ $ terraform apply
 
 * The logic for deploying Apache + R Shiny is encapsulated in the `shiny-app` Terraform module.
 * This module takes configuration by being invoked in the top-level `main.tf` file.
-* The `deployments.tf` contains all the R-specific options to manage multiple deployments.
+* The `deployments.tf` contains all the R-specific options to manage multiple deployments (image + access type for each R Shiny app).
 * The deployment config could have different edit rights to the rest of the repository (see `.github/CODEOWNERS`)
 * The module allows the R Shiny deployments to be scaled independently of each other.
 * The module allows different R Shiny deployments to be authenticated differently.

@@ -6,6 +6,15 @@ variable "tag" {
   type = string
 }
 
+variable "access" {
+  type = string
+
+  validation {
+    condition = contains(["public", "restricted"], var.access)
+    error_message = "Please specify access as being either 'public' or 'restricted'."
+  }
+}
+
 variable "node_port" {
   type = string
 }

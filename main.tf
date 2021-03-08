@@ -33,8 +33,9 @@ module "shiny_app" {
 
   for_each = var.deployments
 
-  name = each.key
-  tag  = each.value.tag
+  name   = each.key
+  tag    = each.value.tag
+  access = each.value.access
 
   auth0-subdomain = var.auth0-subdomain
   auth0-client-id = var.auth0-client-id
