@@ -13,19 +13,23 @@ provider "kubernetes" {
 ### Auth0 variables:
 
 variable "auth0-subdomain" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "auth0-client-id" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "auth0-secret" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 variable "cookie-secret" {
-  type = string
+  type      = string
+  sensitive = true
 }
 
 module "shiny_app" {
