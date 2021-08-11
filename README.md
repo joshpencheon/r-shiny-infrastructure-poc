@@ -1,5 +1,5 @@
 # r-shiny-infrastructure-poc
-A proof-of-concept repo for deploying containerised R Shiny apps
+A proof-of-concept repo for deploying containerised R Shiny apps. See also respositories for building the [auth image](https://github.com/joshpencheon/r-shiny-auth-poc) and the [app images](https://github.com/joshpencheon/r-shiny-poc).
 
 ## Usage:
 
